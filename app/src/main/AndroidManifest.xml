@@ -30,7 +30,7 @@
         </receiver>
 
         <service
-            android:name=".YourService"
+            android:name=".ExampleService"
             android:enabled="true" />
     </application>
 

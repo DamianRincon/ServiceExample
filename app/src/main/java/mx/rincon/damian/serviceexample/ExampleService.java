@@ -17,7 +17,7 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class YourService extends Service {
+public class ExampleService extends Service {
     public int counter=0;
 
     @Override
@@ -32,25 +32,22 @@ public class YourService extends Service {
     @RequiresApi(Build.VERSION_CODES.O)
     private void startMyOwnForeground()
     {
-        String NOTIFICATION_CHANNEL_ID = "example.permanence";
-        String channelName = "Background Service";
+        String NOTIFICATION_CHANNEL_ID = "mx.rincon.damian.serviceexample";
+        String channelName = "Background Service Example";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.createNotificationChannel(chan);
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
-                .setContentTitle("App is running in background")
+                .setContentTitle("Aplicación Corriendo en Background")
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build();
         startForeground(2, notification);
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -64,7 +61,6 @@ public class YourService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stoptimertask();
-
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction("Main");
         broadcastIntent.setClass(this, Restarter.class);
@@ -79,7 +75,7 @@ public class YourService extends Service {
         timer = new Timer();
         timerTask = new TimerTask() {
             public void run() {
-                Log.i("Count", "=========  "+ (counter++));
+                Log.i("Contador", "====  "+ (counter++));
             }
         };
         timer.schedule(timerTask, 1000, 1000); //
